@@ -27,9 +27,9 @@ const AiStudioSectionHeader: React.FC<AiStudioSectionHeaderProps> = ({
   onSearchChange,
 }) => {
   return (
-    <div className="pt-6 mb-6 md:mb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`p-6 sm:p-8 rounded-xl shadow-xl relative overflow-hidden ${backgroundColorClasses}`}>
+    <div className="">
+      <div className="">
+        <div className={`p-4 sm:p-4 relative overflow-hidden ${backgroundColorClasses}`}>
           <div className="flex flex-col md:flex-row md:items-center justify-between relative z-10">
             <div>
               <h1 className={`text-3xl sm:text-4xl font-bold tracking-tight ${textColorClasses}`}>
@@ -61,9 +61,10 @@ const AiStudioSectionHeader: React.FC<AiStudioSectionHeaderProps> = ({
               placeholder={searchPlaceholder || "Search..."}
               value={searchTerm}
               onChange={(e) => onSearchChange?.(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 py-3 rounded-lg shadow-sm border border-border bg-input text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-all text-base"
+              className="w-full h-12 pl-12 pr-4 py-3 rounded-lg shadow-sm border border-border bg-input text-foreground placeholder:text-form-description focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-all text-base"
               aria-label={searchPlaceholder || "Search"}
             />
+
           </div>
         )}
       </div>

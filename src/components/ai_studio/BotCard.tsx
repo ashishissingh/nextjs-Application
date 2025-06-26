@@ -69,7 +69,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
         <div className="flex items-center">
           <div className="p-3 bg-accent/10 rounded-lg mr-4 shadow-sm">
             {bot.avatarUrl ? (
-              <img src={bot.avatarUrl} alt={`${bot.name} avatar`} className="w-8 h-8 rounded-md object-cover" />
+              <img src={bot.avatarUrl} alt={`${bot.name} avatar`} className="w-10 h-10 custom-rounded object-cover" />
             ) : (
               <BotIcon className="w-8 h-8 text-primary" />
             )}
@@ -131,7 +131,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
         </div>
       </div>
       
-      <p className="text-sm text-muted-foreground leading-relaxed mb-3 flex-grow" title={bot.description}>
+      <p className="text-sm text-muted-foreground leading-relaxed mb-3 flex-grow text-form-description" title={bot.description}>
         {bot.description.length > 100 ? `${bot.description.substring(0, 97)}...` : bot.description}
       </p>
 

@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigateHome }) => {
     <div
       className="
         w-20 min-w-[5rem]
-        bg-sidebar-bg/40 backdrop-blur-lg shadow-xl
+        bg-sidebar border-r backdrop-blur-lg shadow-xl
         flex flex-col items-center justify-between py-8 flex-shrink-0
       "
       // If you use a theme toggle, ensure bg-sidebar-bg resolves via CSS variables:

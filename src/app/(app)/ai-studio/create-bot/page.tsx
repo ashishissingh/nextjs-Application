@@ -6,6 +6,7 @@ import { PlusSquare, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Sidebar from '@/components/Sidebar';
 import AiStudioSidebar from '@/components/ai_studio/AiStudioSidebar';
+import { Footer } from '@/components/shared/Footer';
 import dynamic from 'next/dynamic';
 
 const CreateBotForm = dynamic(
@@ -29,7 +30,8 @@ export default function CreateBotPage() {
       <Sidebar onNavigateHome={() => router.push('/dashboard')} />
       <div className="flex flex-1 bg-background text-foreground overflow-hidden">
         <AiStudioSidebar activeNav="dashboard" setActiveNav={() => {}} />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto">
             <div className="max-w-3xl mx-auto space-y-8 mt-8 p-6">
             <div className="flex items-center gap-4">
               <PlusSquare className="h-10 w-10 text-primary" />
@@ -48,6 +50,8 @@ export default function CreateBotPage() {
               </CardContent>
             </Card>
           </div>
+          </div>
+          <Footer />
         </div>
       </div>
     </div>

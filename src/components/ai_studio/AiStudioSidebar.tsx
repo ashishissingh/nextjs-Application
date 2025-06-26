@@ -31,13 +31,15 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   
   const handleNavClick = (navId: AiStudioNavId) => {
-    if (navId === 'bots') {
-      router.push('/bots');
-    } else if (navId === 'dashboard') {
-      router.push('/ai-studio');
-    } else {
-      setActiveNav(navId);
-    }
+    const routeMap = {
+      dashboard: '/ai-studio',
+      bots: '/bots',
+      prompts: '/prompts',
+      knowledgeBase: '/knowledge-base',
+      tools: '/tools'
+    };
+    
+    router.push(routeMap[navId]);
   };
   
   return (
@@ -67,7 +69,7 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
         transition-transform duration-300 ease-in-out
       `}>
       
-      <div className="py-4 px-2 mb-2">
+      <div className="py-4 px-2 mb-2 border-b">
         <h1 className="text-4xl font-bold text-sidebar-foreground">
           AI Studio
         </h1>

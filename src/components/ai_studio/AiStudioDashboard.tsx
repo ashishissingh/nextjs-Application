@@ -723,7 +723,7 @@ const ListItemAction: React.FC<{
         <span className="text-foreground font-medium group-hover:text-primary/90">
           {text}
         </span>
-        {subtext && <p className="text-sm text-muted-foreground">{subtext}</p>}
+        {subtext && <p className="text-sm text-muted-foreground text-form-description">{subtext}</p>}
       </div>
     </div>
     <div className="flex items-center">
@@ -754,10 +754,10 @@ const AiStudioDashboardContent: React.FC = () => {
     <>
       <div className="flex justify-between items-center mb-6 md:mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight mt-3">
             Welcome, {userName}!
           </h1>
-          <p className="mt-1 text-md text-muted-foreground">
+          <p className="mt-1 text-md text-muted-foreground text-form-description">
             Arrange your workspace as you like.
           </p>
         </div>
@@ -772,7 +772,7 @@ const AiStudioDashboardContent: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <WidgetCard className="md:col-span-2" icon={<SparklesIcon />}>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-form-description">
             Here's a quick overview of your workspace. You are doing great! Welcome back
             to AI Studio. You can customize this dashboard to fit your needs. Use the
             "Customize" button to add or remove widgets.
@@ -806,7 +806,7 @@ const AiStudioDashboardContent: React.FC = () => {
         </WidgetCard>
 
         <WidgetCard title="My Modules" icon={<CubeIcon />}>
-          <p className="text-sm text-muted-foreground mb-3">Modules you have direct access to.</p>
+          <p className="text-sm text-muted-foreground mb-3 text-form-description">Modules you have direct access to.</p>
           <ul className="space-y-1 max-h-48 overflow-y-auto">
             <li>
               <ListItemAction
@@ -848,7 +848,7 @@ const AiStudioDashboardContent: React.FC = () => {
             </a>
           }
         >
-          <p className="text-sm text-muted-foreground mb-3">
+          <p className="text-sm text-muted-foreground mb-3 text-form-description">
             You have 4 unread notifications.
           </p>
           <ul className="space-y-2">
@@ -872,7 +872,7 @@ const AiStudioDashboardContent: React.FC = () => {
         </WidgetCard>
 
         <WidgetCard title="Bot Activity" icon={<ArrowTrendingUpIcon />}>
-          <p className="text-sm text-muted-foreground mb-2">
+          <p className="text-sm text-muted-foreground mb-2 text-form-description">
             Monthly bot interactions and active counts.
           </p>
           <div className="
