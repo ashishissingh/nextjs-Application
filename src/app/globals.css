@@ -43,15 +43,15 @@ body {
     --chart-5: 0 0% 50%;   /* Grey */
     --radius: 0.5rem;
 
-    /* Sidebar specific theme variables */
-    --sidebar-background: 230 78% 11%; /* #050A34 Deep blue/navy */
-    --sidebar-foreground: 0 0% 100%; /* #FFFFFF White */
-    --sidebar-primary: 33 100% 50%; /* #FF9300 Vibrant orange for active highlight */
-    --sidebar-primary-foreground: 0 0% 7%; /* #121212 Black text on orange */
-    --sidebar-accent: 230 41% 20%; /* #1E2348 Muted dark blue for hover/accent */
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 230 41% 25%;
-    --sidebar-ring: 33 100% 50%; /* #FF9300 Vibrant orange */
+    /* Sidebar specific colors for light theme */
+    --sidebar-background: 230 60% 98%; /* Very light version of primary, almost white */
+    --sidebar-foreground: 232 82% 11%; /* Primary text color */
+    --sidebar-primary: 35 100% 50%; /* Accent for active items */
+    --sidebar-primary-foreground: 0 0% 100%; /* White text on accent */
+    --sidebar-accent: 230 50% 92%; /* Hover background */
+    --sidebar-accent-foreground: 232 82% 11%; /* Primary text on hover */
+    --sidebar-border: 230 30% 88%;
+    --sidebar-ring: 35 100% 50%;
   }
 
   .dark {
@@ -89,14 +89,15 @@ body {
     --chart-4: 210 30% 50%; /* Slate Blue */
     --chart-5: 0 0% 50%;   /* Grey */
 
-    --sidebar-background: 230 78% 11%; /* #050A34 Deep blue/navy */
-    --sidebar-foreground: 0 0% 100%; /* #FFFFFF White */
-    --sidebar-primary: 33 100% 50%; /* #FF9300 Vibrant orange */
-    --sidebar-primary-foreground: 0 0% 7%; /* #121212 Black text on orange */
-    --sidebar-accent: 230 41% 20%; /* #1E2348 Muted dark blue */
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 230 41% 25%;
-    --sidebar-ring: 33 100% 50%; /* #FF9300 Vibrant orange */
+    /* Sidebar specific colors for dark theme */
+    --sidebar-background: 232 75% 13%; /* Slightly different from main dark background */
+    --sidebar-foreground: 0 0% 95%; /* Light text */
+    --sidebar-primary: 35 100% 50%; /* Accent for active items */
+    --sidebar-primary-foreground: 232 82% 11%; /* Primary text on accent */
+    --sidebar-accent: 232 60% 18%; /* Hover background */
+    --sidebar-accent-foreground: 0 0% 98%; /* Light text on hover */
+    --sidebar-border: 232 60% 22%;
+    --sidebar-ring: 35 100% 50%;
   }
 }
 
@@ -106,5 +107,32 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-sidebar {
+    background-color: hsl(var(--sidebar-background));
+  }
+  .text-sidebar-foreground {
+    color: hsl(var(--sidebar-foreground));
+  }
+  .bg-sidebar-primary {
+    background-color: hsl(var(--sidebar-primary));
+  }
+  .text-sidebar-primary-foreground {
+    color: hsl(var(--sidebar-primary-foreground));
+  }
+  .bg-sidebar-accent {
+    background-color: hsl(var(--sidebar-accent));
+  }
+  .text-sidebar-accent-foreground {
+    color: hsl(var(--sidebar-accent-foreground));
+  }
+  .border-sidebar-border {
+    border-color: hsl(var(--sidebar-border));
+  }
+  .text-form-description {
+    color: #3949AC;
   }
 }

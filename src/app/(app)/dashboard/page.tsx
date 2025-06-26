@@ -1,10 +1,10 @@
-// app/dashboard/page.tsx
 'use client';
 
 import React from 'react';
-import App from '@/components/Dashboard';
+import Dashboard from '@/components/Dashboard/Dashboard';
+
 const DashboardPage = () => {
-  return <App />;
+  return <Dashboard />;
 };
 
 export default DashboardPage;

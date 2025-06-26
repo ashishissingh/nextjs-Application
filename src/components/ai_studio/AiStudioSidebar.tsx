@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
 import { 
   BotIcon, 
   PromptIcon, 
@@ -8,7 +10,7 @@ import {
   Squares2X2Icon 
 } from '../../../constants';
 
-export type AiStudioNavId = 'dashboard' | 'bots' | 'prompts' | 'knowledgeBase' | 'tools' | 'moduleKits';
+export type AiStudioNavId = 'dashboard' | 'bots' | 'prompts' | 'knowledgeBase' | 'tools';
 
 interface AiStudioSidebarProps {
   activeNav: AiStudioNavId;
@@ -21,17 +23,52 @@ const navItems = [
   { id: 'prompts', label: 'Prompts', icon: PromptIcon },
   { id: 'knowledgeBase', label: 'Knowledge Base', icon: KnowledgeBaseIcon },
   { id: 'tools', label: 'Tools', icon: ToolsIcon },
-  { id: 'moduleKits', label: 'Module Kits', icon: IdentificationIcon },
+  // { id: 'moduleKits', label: 'Module Kits', icon: IdentificationIcon },
 ] as const;
 
-
 const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveNav }) => {
-
+  const router = useRouter();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  
+  const handleNavClick = (navId: AiStudioNavId) => {
+    if (navId === 'bots') {
+      router.push('/bots');
+    } else if (navId === 'dashboard') {
+      router.push('/ai-studio');
+    } else {
+      setActiveNav(navId);
+    }
+  };
+  
   return (
-    <div className="w-60 min-w-[15rem] bg-slate-50 shadow-lg flex flex-col flex-shrink-0 p-4 space-y-3 border-r border-slate-200">
+    <>
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        className="md:hidden fixed top-24 left-4 z-50 p-2 bg-sidebar rounded-md shadow-lg border border-sidebar-border"
+        aria-label="Toggle AI Studio Menu"
+      >
+        {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
+      {/* Overlay for mobile */}
+      {isMobileOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`
+        w-60 min-w-[15rem] bg-sidebar shadow-lg flex flex-col flex-shrink-0 p-4 space-y-3 border-r border-sidebar-border
+        md:relative md:translate-x-0
+        ${isMobileOpen ? 'fixed inset-y-0 left-0 z-50 translate-x-0' : 'fixed inset-y-0 left-0 z-50 -translate-x-full md:translate-x-0'}
+        transition-transform duration-300 ease-in-out
+      `}>
       
       <div className="py-4 px-2 mb-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold text-sidebar-foreground">
           AI Studio
         </h1>
       </div>
@@ -44,16 +81,28 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
             return (
               <li key={item.id}>
                 <button
-                  onClick={() => setActiveNav(item.id)}
+                  onClick={() => handleNavClick(item.id)}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 ease-in-out group focus:outline-none focus:ring-2 focus:ring-purple-400
-                    ${isActive 
-                      ? 'bg-purple-600 text-white shadow-sm' 
-                      : 'text-slate-700 hover:bg-purple-100/70 hover:text-purple-700'
-                    }`}
+                  className={`
+                    w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg
+                    transition-all duration-200 ease-in-out group focus:outline-none
+                    focus:ring-2 focus:ring-[#1E2548]/50
+                    ${
+                      isActive
+                        ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-sm'
+                        : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                    }
+                  `}
                 >
-                  <Icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-500 group-hover:text-purple-600'}`} />
-                  <span className={`text-sm font-medium ${isActive ? 'text-white' : ''}`}>
+                  <Icon className={`
+                    w-5 h-5 flex-shrink-0
+                    ${
+                      isActive
+                        ? 'text-sidebar-accent-foreground'
+                        : 'text-sidebar-foreground group-hover:text-sidebar-accent-foreground'
+                    }
+                  `} />
+                  <span className={`text-sm font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground'}`}>
                     {item.label}
                   </span>
                 </button>
@@ -62,7 +111,8 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
           })}
         </ul>
       </nav>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -25,6 +25,8 @@ import {
   LifeBuoy,
   UserCircle,
   Building2,
+  Bot,
+  Server,
 } from 'lucide-react';
 import Image from 'next/image'; 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -33,7 +35,8 @@ import { useRouter } from 'next/navigation';
 // Navigation items for the main content area
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/request-access', label: 'Request Access', icon: KeyRound },
+  { href: '/ai-studio', label: 'AI Studio', icon: Bot },
+  { href: '/k8s-management', label: 'K8s Management', icon: Server },
 ];
 
 // Navigation items for the footer area

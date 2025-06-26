@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Bot } from '../../../types';
 import BotCard from './BotCard';
 import { PlusCircleIcon, ChevronLeftIcon, ChevronRightIcon, BotIcon as DefaultBannerIcon } from '../../../constants';
+import { useRouter } from 'next/navigation';
 // ScreenSearchBarHeader removed as search is now global
 // SectionBanner can be used if a local banner is still desired, but header is global
 
@@ -24,11 +25,14 @@ interface BotManagementScreenProps {
 }
 
 export default function BotManagementScreen({ searchTerm }: BotManagementScreenProps): JSX.Element {
+
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   // Local searchTerm state is removed
 
   const handleCreateNewBot = () => {
     console.log("Create new bot clicked");
+    router.push('/ai-studio/create-bot');
   };
 
   const filteredBots = useMemo(() => {
@@ -64,7 +68,7 @@ export default function BotManagementScreen({ searchTerm }: BotManagementScreenP
         <h2 className="text-2xl sm:text-3xl font-semibold text-slate-800">Your Bots</h2>
         <button
             onClick={handleCreateNewBot}
-            className="flex-shrink-0 flex items-center justify-center px-6 py-3 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75 transition-colors duration-200 font-medium text-base sm:w-auto"
+            className="flex-shrink-0 flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-75 transition-colors duration-200 font-medium text-base sm:w-auto"
             aria-label="Create a new bot"
         >
             <PlusCircleIcon className="w-5 h-5 mr-2" />
