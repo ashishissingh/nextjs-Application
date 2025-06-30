@@ -254,6 +254,9 @@ export default function PromptsPage() {
             searchPlaceholder={SECTION_CONFIG.searchPlaceholder}
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}
+            showCreateButton={true}
+            createButtonText="Create New Prompt"
+            onCreateClick={() => console.log('Create new prompt')}
           />
           <main className="flex-1 overflow-y-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-6 sm:pb-8 md:pb-10 lg:pb-12">

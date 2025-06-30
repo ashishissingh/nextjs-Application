@@ -272,7 +272,7 @@ const K8sDashboard: React.FC<K8sDashboardProps> = ({ activeNav }) => {
       <main className="flex-1 overflow-y-auto">
         {contentToRender}
       </main>
-      <footer className="p-4 sm:p-6 border-t border-slate-200 bg-slate-50/50 text-center text-sm text-slate-600">
+      <footer className="p-2 sm:p-2 border-t border-slate-200 bg-slate-50/50 text-center text-sm text-slate-600">
         <p>&copy; {new Date().getFullYear()} K8s Management. All rights reserved.</p>
       </footer>
     </div>

@@ -70,7 +70,7 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
       `}>
       
       <div className="py-4 px-2 mb-2 border-b">
-        <h1 className="text-4xl font-bold text-sidebar-foreground">
+        <h1 className="text-4xl font-bold text-foreground">
           AI Studio
         </h1>
       </div>
@@ -91,8 +91,8 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
                     focus:ring-2 focus:ring-[#1E2548]/50
                     ${
                       isActive
-                        ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-sm'
-                        : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                        ? 'bg-sidebar-accent text-foreground shadow-sm'
+                        : 'text-foreground hover:bg-sidebar-accent hover:text-foreground'
                     }
                   `}
                 >
@@ -100,11 +100,11 @@ const AiStudioSidebar: React.FC<AiStudioSidebarProps> = ({ activeNav, setActiveN
                     w-5 h-5 flex-shrink-0
                     ${
                       isActive
-                        ? 'text-sidebar-accent-foreground'
-                        : 'text-sidebar-foreground group-hover:text-sidebar-accent-foreground'
+                        ? 'text-foreground'
+                        : 'teBxt-foreground group-hover:text-foreground'
                     }
                   `} />
-                  <span className={`text-sm font-medium ${isActive ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground'}`}>
+                  <span className={`text-sm font-medium ${isActive ? 'text-foreground' : 'text-foreground'}`}>
                     {item.label}
                   </span>
                 </button>

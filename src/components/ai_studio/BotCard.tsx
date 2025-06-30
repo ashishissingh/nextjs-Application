@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Bot, BotStatus } from '../../../types';
 import { BotIcon, PencilIcon, EllipsisVerticalIcon, DocumentDuplicateIcon, TrashIcon } from '../../../constants';
 import { BOT_ACTIONS, BOT_LABELS } from '@/lib/config/bot.config';
@@ -29,6 +30,7 @@ const getStatusColorClasses = (status: BotStatus): string => {
 const BotCard: React.FC<BotCardProps> = ({ bot }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,8 +47,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
   }, [isMenuOpen]);
 
   const handleStartConversation = () => {
-    console.log(`Starting conversation with bot: ${bot.name}`);
-    // TODO: Navigate to chat interface
+    router.push('/chatpage');
   };
   
   const handleEdit = () => console.log(`Editing bot: ${bot.name}`);
@@ -71,11 +72,11 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
             {bot.avatarUrl ? (
               <img src={bot.avatarUrl} alt={`${bot.name} avatar`} className="w-10 h-10 custom-rounded object-cover" />
             ) : (
-              <BotIcon className="w-8 h-8 text-primary" />
+              <BotIcon className="w-8 h-8 text-foreground" />
             )}
           </div>
           <div>
-            <h3 id={`bot-title-${bot.id}`} className="text-lg font-semibold text-primary leading-tight">
+            <h3 id={`bot-title-${bot.id}`} className="text-lg font-semibold text-foreground leading-tight">
               {bot.name}
             </h3>
             <span className={`px-2 py-0.5 text-xs font-semibold rounded-full ${getStatusColorClasses(bot.status)}`}>
@@ -89,7 +90,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
             aria-label={BOT_LABELS.MORE_ACTIONS}
             aria-haspopup="true"
             aria-expanded={isMenuOpen}
-            className="p-2 text-muted-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
           >
             <EllipsisVerticalIcon className="w-5 h-5" />
           </button>
@@ -103,7 +104,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
               <div className="py-1" role="none">
                 <button
                   onClick={handleEdit}
-                  className="w-full text-left flex items-center px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary transition-colors"
+                  className="w-full text-left flex items-center px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-foreground transition-colors"
                   role="menuitem"
                 >
                   <PencilIcon className="w-4 h-4 mr-3" />
@@ -111,7 +112,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
                 </button>
                 <button
                   onClick={handleDuplicate}
-                  className="w-full text-left flex items-center px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary transition-colors"
+                  className="w-full text-left flex items-center px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-foreground transition-colors"
                   role="menuitem"
                 >
                   <DocumentDuplicateIcon className="w-4 h-4 mr-3" />
@@ -148,7 +149,7 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
         {bot.tags && bot.tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {bot.tags.slice(0, 3).map(tag => (
-              <span key={tag} className="px-1.5 py-0.5 text-xs bg-muted text-muted-foreground rounded-md">
+              <span key={tag} className="px-1.5 py-0.5 text-xs bg-muted text-muted-foreground rounded-md text-form-description">
                 {tag}
               </span>
             ))}
@@ -164,10 +165,10 @@ const BotCard: React.FC<BotCardProps> = ({ bot }) => {
           <Button 
             onClick={handleStartConversation}
             variant="outline"
-            className="w-full text-primary hover:bg-sidebar-primary"
+            className="w-full text-foreground hover:bg-sidebar-primary"
             size="sm"
           >
-            <MessageSquare className="w-4 h-4 mr-2 text-primary" />
+            <MessageSquare className="w-4 h-4 mr-2 text-foreground" />
             {BOT_ACTIONS.START_CONVERSATION}
           </Button>
         </div>

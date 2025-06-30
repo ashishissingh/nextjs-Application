@@ -3,8 +3,6 @@ import type { Bot } from '../../../types';
 import BotCard from './BotCard';
 import { PlusCircleIcon, ChevronLeftIcon, ChevronRightIcon, BotIcon as DefaultBannerIcon } from '../../../constants';
 import { useRouter } from 'next/navigation';
-// ScreenSearchBarHeader removed as search is now global
-// SectionBanner can be used if a local banner is still desired, but header is global
 
 const sampleBots: Bot[] = Array.from({ length: 25 }, (_, i) => ({
   id: `bot${i + 1}`,
@@ -64,25 +62,7 @@ export default function BotManagementScreen({ searchTerm }: BotManagementScreenP
     <>
       {/* Local ScreenSearchBarHeader removed */}
       
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <button
-          onClick={handleCreateNewBot}
-          className="order-1 sm:order-2 flex-shrink-0 flex items-center justify-center 
-                    px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base
-                    bg-primary hover:bg-primary/90 text-primary-foreground 
-                    rounded-lg shadow-md focus:outline-none focus:ring-2 
-                    focus:ring-accent focus:ring-opacity-75 
-                    transition-colors duration-200 font-medium sm:w-auto mt-3"
-          aria-label="Create a new bot"
-        >
-          <PlusCircleIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-          Create New Bot
-        </button>
 
-        <h2 className="order-2 sm:order-1 text-2xl sm:text-3xl mt-3 font-semibold text-slate-800">
-          Your Bots
-        </h2>
-      </div>
 
       
       {currentBots.length > 0 ? (

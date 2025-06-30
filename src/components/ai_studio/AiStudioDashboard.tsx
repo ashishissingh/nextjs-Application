@@ -1037,7 +1037,7 @@ const AiStudioDashboard: React.FC<AiStudioDashboardProps> = ({ activeNav }) => {
         </div>
       </main>
       <footer className="
-        shrink-0 p-4 border-t border-border
+        shrink-0 p-2 sm:p-2 border-t border-border
         bg-background/80 backdrop-blur-sm text-center text-sm text-muted-foreground
       ">
         <p>&copy; {new Date().getFullYear()} AI Studio. All features at your fingertips.</p>

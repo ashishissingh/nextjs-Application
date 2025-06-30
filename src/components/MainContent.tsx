@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModuleCard } from './ModuleCard';
-import type { Module } from '../../types';
+import type { Module } from '../types';
 import { 
   SparklesIcon, 
   CommandLineIcon, 
@@ -20,54 +20,63 @@ const modulesData: Module[] = [
     id: 'ai-studio', 
     name: 'AI Studio', 
     description: 'Design, train, and deploy cutting-edge AI models with intuitive tools and powerful infrastructure.', 
+    descriptionClassName: 'text-form-description',
     icon: <SparklesIcon className="w-8 h-8 text-primary" /> 
   },
   { 
     id: 'k8s-mgmt', 
     name: 'K8s Management', 
     description: 'Orchestrate and monitor your Kubernetes clusters with ease, ensuring optimal performance and reliability.', 
+    descriptionClassName: 'text-form-description',
     icon: <CommandLineIcon className="w-8 h-8 text-primary" /> 
   },
   { 
     id: 'asset-mgmt', 
     name: 'Asset Management', 
     description: 'Track, organize, and optimize your digital and physical assets across their entire lifecycle.', 
+    descriptionClassName: 'text-form-description',
     icon: <CubeIcon className="w-8 h-8 text-primary" /> 
   },
   {
     id: 'data-analytics',
     name: 'Data Analytics Suite',
     description: 'Unlock insights from your data with powerful analytics and visualization tools.',
+    descriptionClassName: 'text-form-description',
     icon: <ChartPieIcon className="w-8 h-8 text-primary" />
   },
   {
     id: 'cloud-storage',
     name: 'Cloud Storage Solutions',
     description: 'Securely store and manage your data with scalable cloud storage options.',
+    descriptionClassName: 'text-form-description',
     icon: <CubeIcon className="w-8 h-8 text-primary" />
   },
   {
     id: 'devops-pipeline',
     name: 'DevOps CI/CD Pipeline',
     description: 'Automate your software delivery process from code to deployment.',
+    descriptionClassName: 'text-form-description',
     icon: <WrenchScrewdriverIcon className="w-8 h-8 text-primary" />
   },
   {
     id: 'iot-platform',
     name: 'IoT Platform',
     description: 'Connect, manage, and analyze data from your Internet of Things devices.',
+    descriptionClassName: 'text-form-description',
     icon: <SparklesIcon className="w-8 h-8 text-primary" />
   },
   {
     id: 'security-center',
     name: 'Security Center',
     description: 'Monitor and protect your applications and infrastructure from threats.',
+    descriptionClassName: 'text-form-description',
     icon: <ShieldCheckIcon className="w-8 h-8 text-primary" />
   },
   {
     id: 'collaboration-hub',
     name: 'Collaboration Hub',
     description: 'Enhance teamwork with integrated communication and project management tools.',
+    descriptionClassName: 'text-form-description',
     icon: <UserGroupIcon className="w-8 h-8 text-primary" />
   },
 ];
@@ -223,7 +232,7 @@ const MainContent: React.FC<MainContentProps> = ({ onExploreModule }) => {
       </div>
       
       {/* Footer Section - Fixed */}
-      <footer className="p-4 sm:p-6 border-t border-border bg-background text-center text-sm text-muted-foreground">
+      <footer className="p-2 sm:p-2 border-t border-border bg-background text-center text-sm text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Project Dashboard. Discover and Innovate.</p>
       </footer>
     </div>

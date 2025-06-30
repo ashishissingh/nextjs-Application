@@ -28,6 +28,9 @@ export default function BotsPage() {
             searchPlaceholder="Search bots by name, tag, or description..."
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
+            showCreateButton={true}
+            createButtonText="Create New Bot"
+            onCreateClick={() => router.push('/ai-studio/create-bot')}
           />
           <main className="flex-1 overflow-y-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-6 sm:pb-8 md:pb-10 lg:pb-12">
