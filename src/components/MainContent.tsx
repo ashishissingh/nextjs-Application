@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ModuleCard } from './ModuleCard';
-import type { Module } from '../types';
+import type { Module } from '../../types';
 import { 
   SparklesIcon, 
   CommandLineIcon, 

@@ -22,12 +22,17 @@ import { UserPlus, Eye, EyeOff, CheckCircle2, Star, ArrowRight, User, Building2,
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CONFIG } from '@/lib/config';
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import ConfirmOtpModal from './ConfirmOtp';
 
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required.' }),
   lastName: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Invalid email address.' }),
+  organizationId: z.string().min(1, { message: 'Organization ID is required.' }),
+  phoneNumber: z.string().optional(),
   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
@@ -46,6 +51,9 @@ export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [loadingApp, setLoadingApp] = useState(false);
+  const [otpEmail, setOtpEmail] = useState('');
+  const [isOtpModalOpen, setOtpModalOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,16 +61,105 @@ export function SignupForm() {
       firstName: '',
       lastName: '',
       email: '',
+      organizationId: '',
+      phoneNumber: '',
       password: '',
       confirmPassword: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // For now, directly push to choose-organization. Later, this will handle step progression.
-    router.push('/choose-organization'); 
+  function validateEmail() {
+    const email = form.getValues('email').toLowerCase();
+    const organizationId = form.getValues('organizationId');
+
+    form.setValue('email', email);
+
+    const orgObj = { email, org: organizationId };
+
+    return fetch(`${CONFIG.apiUrl}validateEmail`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orgObj)
+    })
+      .then(response => response.text())
+      .then(response => {
+        console.log('API Response:', JSON.stringify(response)); // Better debug log
+        if (response.includes("Email already exists")) {
+          throw new Error('Email already exists.');
+        }
+        if (!response.includes("Email does not exist")) {
+          throw new Error(`Unexpected response: ${response}`);
+        }
+      });
+
+
   }
+
+
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    setLoadingApp(true);
+
+    try {
+      await validateEmail();
+      console.log("Email validation successful");
+
+      if (!CONFIG.userPoolId || !CONFIG.clientId) {
+        throw new Error("Missing Cognito configuration");
+      }
+
+      const poolData = {
+        UserPoolId: CONFIG.userPoolId,
+        ClientId: CONFIG.clientId,
+      };
+
+      const UserPool = new CognitoUserPool(poolData);
+
+      const attributeList: CognitoUserAttribute[] = [];
+
+      attributeList.push(new CognitoUserAttribute({ Name: 'name', Value: `${values.firstName} ${values.lastName}` }));
+
+      if (values.phoneNumber && values.phoneNumber.length === 10) {
+        attributeList.push(new CognitoUserAttribute({ Name: 'phone_number', Value: '+91' + values.phoneNumber }));
+      }
+
+      attributeList.push(new CognitoUserAttribute({ Name: 'custom:userType', Value: 'user' }));
+      attributeList.push(new CognitoUserAttribute({ Name: 'custom:admin_approved', Value: 'false' }));
+      attributeList.push(new CognitoUserAttribute({ Name: 'custom:org_id', Value: values.organizationId }));
+
+      // UserPool.signUp(values.email, values.password, attributeList, [], (err, data) => {
+      //   setLoadingApp(false);
+
+      //   if (err) {
+      //     const errorMessage =
+      //       (err as any).code === 'UsernameExistsException'
+      //         ? 'Email already exists.'
+      //         : err.message || JSON.stringify(err);
+
+      //     console.error('Signup error:', errorMessage);
+      //     // Handle error state, e.g., setShowErrorMessage(true);
+      //     return;
+      //   }
+
+      //   console.log("Signup success:", JSON.stringify(data));
+
+
+      // });
+
+      setOtpEmail(values.email);
+      setOtpModalOpen(true);
+
+
+    } catch (error: any) {
+      console.error("Signup failed:", error);
+      form.setError('email', { message: error.message });
+      setLoadingApp(false);
+    }
+  }
+
+
+
 
   const featureList = [
     "Advanced analytics dashboard",
@@ -72,16 +169,17 @@ export function SignupForm() {
   ];
 
   return (
+
     <Card className="w-full shadow-2xl rounded-xl overflow-hidden md:grid md:grid-cols-2">
       {/* Left Column */}
       <div className="bg-primary text-primary-foreground p-8 md:p-12 flex flex-col justify-between rounded-t-xl md:rounded-l-xl md:rounded-tr-none min-h-[600px] md:min-h-0">
         <div>
           <div className="mb-10">
             <Link href="/" className="flex items-center gap-2 text-xl font-semibold">
-              <Image 
-                src="https://raw.githubusercontent.com/hrudu-shibu-axcess/fluffy-fishstick/main/logo-white.png" 
-                alt="Axcess.io Logo" 
-                width={120} 
+              <Image
+                src="https://raw.githubusercontent.com/hrudu-shibu-axcess/fluffy-fishstick/main/logo-white.png"
+                alt="Axcess.io Logo"
+                width={120}
                 height={30}
                 priority
               />
@@ -106,10 +204,10 @@ export function SignupForm() {
           <div className="bg-primary/70 p-4 rounded-lg">
             <div className="flex items-center mb-2">
               <Avatar className="h-10 w-10 mr-3">
-                <AvatarImage src="https://placehold.co/40x40.png?text=JD" alt="John Davis" data-ai-hint="customer avatar"/>
+                <AvatarImage src="https://placehold.co/40x40.png?text=JD" alt="John Davis" data-ai-hint="customer avatar" />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
-               <div className="flex">
+              <div className="flex">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />
                 ))}
@@ -145,10 +243,10 @@ export function SignupForm() {
                 "rounded-full h-10 w-10 flex items-center justify-center border-2",
                 currentStep === step.id ? "border-primary bg-primary/10" : "border-border"
               )}>
-                <step.icon className={cn("h-5 w-5", currentStep === step.id ? "text-primary" : "text-muted-foreground/70" )} />
+                <step.icon className={cn("h-5 w-5", currentStep === step.id ? "text-primary" : "text-muted-foreground/70")} />
               </div>
               <p className={cn("text-xs mt-2 text-center", currentStep === step.id ? "font-semibold" : "")}>{step.name}</p>
-              {currentStep === step.id && <div className="w-full h-0.5 bg-primary mt-2 absolute bottom-[-1px] left-0 right-0 mx-auto" style={{ transform: `translateX(${index * 100 - 100}%)`, width: '33.33%'}}></div> }
+              {currentStep === step.id && <div className="w-full h-0.5 bg-primary mt-2 absolute bottom-[-1px] left-0 right-0 mx-auto" style={{ transform: `translateX(${index * 100 - 100}%)`, width: '33.33%' }}></div>}
             </div>
           ))}
         </div>
@@ -199,6 +297,34 @@ export function SignupForm() {
                     </FormItem>
                   )}
                 />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="organizationId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Organization ID</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phoneNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number (Optional)</FormLabel>
+                        <FormControl>
+                          <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
                   name="password"
@@ -231,9 +357,9 @@ export function SignupForm() {
                     <FormItem>
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
-                         <div className="relative">
+                        <div className="relative">
                           <Input type={showConfirmPassword ? "text" : "password"} placeholder="••••••••" {...field} />
-                           <Button
+                          <Button
                             type="button"
                             variant="ghost"
                             size="icon"
@@ -251,7 +377,7 @@ export function SignupForm() {
                 />
               </>
             )}
-            
+
             {/* Placeholder for future steps */}
             {currentStep === 2 && <p className="text-center text-muted-foreground">Company Details fields will go here.</p>}
             {currentStep === 3 && <p className="text-center text-muted-foreground">Security & Preferences fields will go here.</p>}
@@ -268,6 +394,14 @@ export function SignupForm() {
           </Link>
         </div>
       </div>
+      <ConfirmOtpModal
+        isOpen={isOtpModalOpen}
+        onClose={() => setOtpModalOpen(false)}
+        email={otpEmail}
+      />
+
     </Card>
+
+
   );
 }
