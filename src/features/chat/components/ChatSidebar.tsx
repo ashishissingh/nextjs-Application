@@ -17,7 +17,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
   onSelectChat,
 }) => {
   return (
-    <div className="w-1/3 xl:w-3/12 flex-shrink-0 border-r border-sidebar-border bg-background overflow-y-auto">
+    <div className="w-80 flex-shrink-0 border-r border-sidebar-border bg-background overflow-y-auto">
       <div className="p-4 border-b border-border">
         <h2 className="text-lg font-semibold text-foreground">Conversations</h2>
       </div>

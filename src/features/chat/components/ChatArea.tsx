@@ -29,14 +29,14 @@ export const ChatArea: React.FC<ChatAreaProps> = ({
 
   if (!currentBot) {
     return (
-      <div className="w-2/3 xl:w-9/12 flex items-center justify-center bg-ai-studio-bg">
+      <div className="flex-1 flex items-center justify-center bg-ai-studio-bg">
         <p className="text-ai-studio-text-secondary">Select a bot to start chatting</p>
       </div>
     );
   }
 
   return (
-    <div className="w-2/3 xl:w-9/12 flex flex-col bg-card/80 backdrop-blur-md min-h-0">
+    <div className="flex-1 flex flex-col bg-card/80 backdrop-blur-md min-h-0">
       <div className="p-4 border-b border-border bg-card shadow-sm shrink-0">
         <div className="flex items-center">
           {currentBot.icon && <currentBot.icon className="w-10 h-10 text-ai-chat-orange-primary mr-3 shrink-0" />}
