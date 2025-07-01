@@ -148,7 +148,7 @@ export function SignupForm() {
                 <step.icon className={cn("h-5 w-5", currentStep === step.id ? "text-primary" : "text-muted-foreground/70" )} />
               </div>
               <p className={cn("text-xs mt-2 text-center", currentStep === step.id ? "font-semibold" : "")}>{step.name}</p>
-              {currentStep === step.id && <div className="w-full h-0.5 bg-primary mt-2 absolute bottom-[-1px] left-0 right-0 mx-auto" style={{ transform: `translateX(${index * 100 - 100}%)`, width: '33.33%'}}></div> }
+              {currentStep === step.id && <div className="w-full bg-primary mt-2 absolute bottom-[-1px] left-0 right-0 mx-auto" style={{ transform: `translateX(${index * 100 - 100}%)`, width: '33.33%'}}></div> }
             </div>
           ))}
         </div>
